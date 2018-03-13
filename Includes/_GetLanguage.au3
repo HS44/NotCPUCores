@@ -425,8 +425,9 @@ Func _LoadLanguage($sPath = @OSLang)
 	EndIf
 
 	#Region ; File Info
-	$_sLang_Version     = IniRead($sPath, "File", "Version" , "0"      )
-	$_sLang_Language    = IniRead($sPath, "File", "Langauge", "Default")
+	Global $_sLang_Version     = IniRead($sPath, "File", "Version"   , "0"           )
+	Global $_sLang_Language    = IniRead($sPath, "File", "Langauge"  , "Default"     )
+	Global $_sLang_Translator  = IniRead($sPath, "File", "Translator", "Robert Maehl")
 	#EndRegion
 
 	#Region ; Global Word Usage
@@ -472,9 +473,9 @@ Func _LoadLanguage($sPath = @OSLang)
 	#EndRegion
 
 	#Region ; Steam Games Tab
-	Global $_sLang_GamesTab     = IniRead($sPath, "Steam Games", "Games Tab"   , "Steam Games" )
-	Global $_sLang_GameName     = IniRead($sPath, "Steam Games", "Game Name"   , "Game Name"   )
-	Global $_sLang_GameProcess  = IniRead($sPath, "Steam Games", "Game Process", "Game Process")
+	Global $_sLang_GamesTab = IniRead($sPath, "Steam Games", "Games Tab", "Steam Games")
+	Global $_sLang_GameName = IniRead($sPath, "Steam Games", "Game Name", "Game Name"  )
+	Global $_sLang_GameID   = IniRead($sPath, "Steam Games", "Game ID"  , "Game ID"    )
 	#EndRegion
 
 	#Region ; Sleep Timer GUI
@@ -568,31 +569,62 @@ Func _LoadLanguage($sPath = @OSLang)
 	#EndRegion
 
 	#Region ; About Tab
-	Global $_sLang_AboutTab         = IniRead($sPath, "About", "About Tab", "About"       )
-	Global $_sLang_AboutDeveloper   = IniRead($sPath, "About", "Developer", "Developed by")
-	Global $_sLang_AboutIcon        = IniRead($sPath, "About", "Icon By"  , "Icon by"     )
+	Global $_sLang_AboutTab         = IniRead($sPath, "About", "About Tab"     , "About"         )
+	Global $_sLang_AboutDeveloper   = IniRead($sPath, "About", "Developer"     , "Developed by"  )
+	Global $_sLang_AboutIcon        = IniRead($sPath, "About", "Icon By"       , "Icon by"       )
+	Global $_sLang_AboutLanugage    = IniRead($sPath, "About", "Translation By", "Translation By")
 	#EndRegion
 
-	#Region ;Errors
-	Global $_sLang_InvalidBroadcast      = IniRead($sPath, "Errors", "Broadcaster"             , "Invalid Broadcaster Software!"        )
-	Global $_sLang_InvalidBroadcastCores = IniRead($sPath, "Errors", "Broadcast Assignment"    , "Invalid Broadcaster Assignment Mode!" )
-	Global $_sLang_InvalidProcessCores   = IniRead($sPath, "Errors", "Process Assignment"      , "Invalid App/Game Assigment Mode!"     )
-	Global $_sLang_InvalidOtherCores     = IniRead($sPath, "Errors", "Other Process Assignment", "Invalid Other Process Assigment Mode!")
+	#Region ; Drop Downs
+	Global $_sLang_AllocAll          = IniRead($sPath, "Dropdowns", "All Cores"            , "All Cores"         )
+	Global $_sLang_AllocFirst        = IniRead($sPath, "Dropdowns", "First Core"           , "First Core"        )
+	Global $_sLang_AllocFirstTwo     = IniRead($sPath, "Dropdowns", "First Two Cores"      , "First 2 Cores"     )
+	Global $_sLang_AllocFirstFour    = IniRead($sPath, "Dropdowns", "First Four Cores"     , "First 4 Cores"     )
+	Global $_sLang_AllocFirstHalf    = IniRead($sPath, "Dropdowns", "First Half"           , "First Half"        )
+	Global $_sLang_AllocFirstAMD     = IniRead($sPath, "Dropdowns", "First AMD CCX"        , "First AMD CCX"     )
+	Global $_sLang_AllocEven         = IniRead($sPath, "Dropdowns", "Even Cores"           , "Even Cores"        )
+	Global $_sLang_AllocPhysical     = IniRead($sPath, "Dropdowns", "Physcial Cores"       , "Physcial Cores"    )
+	Global $_sLang_AllocOdd          = IniRead($sPath, "Dropdowns", "Odd Cores"            , "Odd Cores"         )
+	Global $_sLang_AllocVirtual      = IniRead($sPath, "Dropdowns", "Non-Physical Cores"   , "Non-Physical Cores")
+	Global $_sLang_AllocLast         = IniRead($sPath, "Dropdowns", "Last Core"            , "Last Core"         )
+	Global $_sLang_AllocLastTwo      = IniRead($sPath, "Dropdowns", "Last Two Cores"       , "Last 2 Cores"      )
+	Global $_sLang_AllocLastFour     = IniRead($sPath, "Dropdowns", "Last Four Cores"      , "Last 4 Cores"      )
+	Global $_sLang_AllocLastHalf     = IniRead($sPath, "Dropdowns", "Last Half"            , "Last Half"         )
+	Global $_sLang_AllocLastAMD      = IniRead($sPath, "Dropdowns", "Last AMD CCX"         , "Last AMD CCX"      )
+	Global $_sLang_AllocPairs        = IniRead($sPath, "Dropdowns", "Pairs"                , "Every Other Pair"  )
+	Global $_sLang_AllocCustom       = IniRead($sPath, "Dropdowns", "Custom"               , "Custom"            )
+	Global $_sLang_AllocBroadcaster  = IniRead($sPath, "Dropdowns", "Broadcaster Cores"    , "Broadcaster Cores" )
+	Global $_sLang_AllocProcess      = IniRead($sPath, "Dropdowns", "Process Cores"        , "Game/App Cores"    )
+	Global $_sLang_AllocRemaining    = IniRead($sPath, "Dropdowns", "Remaining Cores"      , "Remaining Cores"   )
+	Global $_sLang_PriorityNormal    = IniRead($sPath, "Dropdowns", "Normal Priority"      , "Normal"            )
+	Global $_sLang_PriorityANormal   = IniRead($sPath, "Dropdowns", "Above Normal Priority", "Above Normal"      )
+	Global $_sLang_PriorityHigh      = IniRead($sPath, "Dropdowns", "High Priority"        , "High"              )
+	Global $_sLang_PriorityRealtime  = IniRead($sPath, "Dropdowns", "Realtime Priority"    , "Realtime"          )
+	#EndRegion
 
+	#Region ; Normal Execution
+	Global $_sLang_Optimizing       = IniRead($sPath, "Running", "Optimizing"      , "is optimizing in the background until it closes..."                                            )
+	Global $_sLang_ReOptimizing     = IniRead($sPath, "Running", "Reoptimizing"    , "Process Count Changed, Optimization Reran"                                                     )
+	Global $_sLang_MaxPerformance   = IniRead($sPath, "Running", "Performance Mode", "All Cores used for Assignment, Max Performance will be prioritized over Consistent Performance")
+	Global $_sLang_RestoringState   = IniRead($sPath, "Running", "RestoringState"  , "Exited. Restoring Previous State..."                                                           )
 
+	#Region ; Errors
+	Global $_sLang_InvalidBroadcast      = IniRead($sPath, "Errors", "Broadcaster"             , "Invalid Broadcaster Software!"                                                             )
+	Global $_sLang_InvalidBroadcastCores = IniRead($sPath, "Errors", "Broadcast Assignment"    , "Invalid Broadcaster Assignment Mode!"                                                      )
+	Global $_sLang_InvalidProcessCores   = IniRead($sPath, "Errors", "Process Assignment"      , "Invalid App/Game Assigment Mode!"                                                          )
+	Global $_sLang_InvalidOtherCores     = IniRead($sPath, "Errors", "Other Process Assignment", "Invalid Other Process Assigment Mode!"                                                     )
+	Global $_sLang_InvalidPriority       = IniRead($sPath, "Errors", "Priority Assignment"     , "Invalid Priority Mode!"                                                                    )
+	Global $_sLang_NotRunning            = IniRead($sPath, "Errors", "Not Running"             , "is not currently running. Please run the program first"                                    )
+	Global $_sLang_MaxCores              = IniRead($sPath, "Errors", "All Cores Used"          , "No Cores Left for Other Processes, defaulting to last core"                                )
+	Global $_sLang_TooManyCores          = IniRead($sPath, "Errors", "Too Many Cores"          , "You've specified more cores than available on your system"                                 )
+	Global $_sLang_TooManyTotalCores     = IniRead($sPath, "Errors", "Too Many Total Cores"    , "You've specified more cores between App/Game and Broadcaster than available on your system")
+	#EndRegion
 
-	#Region ; TO DO
-	$_sLang_Optimizing1      = IniRead($sPath, "Console", "Optimizing1"     , "Optimizing "                                              )
-	$_sLang_Optimizing2      = IniRead($sPath, "Console", "Optimizing2"     , " in the background until it closes..."                    )
-	$_sLang_RestoringState   = IniRead($sPath, "Console", "RestoringState"  , "Restoring Previous State..."                              )
-	$_sLang_RestoringProcess = IniRead($sPath, "Console", "RestoringProcess", "Restoring Priority and Affinity of all Other Processes...")
-	$_sLang_ProcessChange    = IniRead($sPath, "Console", "ProcessChange"   , "Process Count Changed, Rerunning Optimization..."         )
-	$_sLang_StoppingServices = IniRead($sPath, "Console", "StoppingServices", "Temporarily Pausing Game Impacting Services..."           )
-	$_sLang_StartingServices = IniRead($sPath, "Console", "StartingServices", "Restarting Any Stopped Services..."                       )
-	$_sLang_HPETChange       = IniRead($sPath, "Console", "HPETChange"      , "HPET State Changed, Please Reboot to Apply Changes"       )
-	$_sLang_NotRunning   = IniRead($sPath, "Errors", "NotRunning"  , " is not currently running. Please run the program first"  )
-	$_sLang_CoreError    = IniRead($sPath, "Errors", "CoreError"   , " is not a proper declaration of what cores to run on"     )
-	$_sLang_TooManyCores = IniRead($sPath, "Errors", "TooManyCores", "You've specified more cores than available on your system")
+	#Region ; Future Possible Additions
+	; $_sLang_RestoringProcess = IniRead($sPath, "Console", "RestoringProcess", "Restoring Priority and Affinity of all Other Processes...")
+	; $_sLang_StoppingServices = IniRead($sPath, "Console", "StoppingServices", "Temporarily Pausing Game Impacting Services..."           )
+	; $_sLang_StartingServices = IniRead($sPath, "Console", "StartingServices", "Restarting Any Stopped Services..."                       )
+	; $_sLang_HPETChange       = IniRead($sPath, "Console", "HPETChange"      , "HPET State Changed, Please Reboot to Apply Changes"       )
 	#EndRegion
 
 EndFunc
