@@ -6,7 +6,7 @@
 #AutoIt3Wrapper_Change2CUI=N
 #AutoIt3Wrapper_Res_Comment=Compiled 5/15/2018 @ 9:30 EST
 #AutoIt3Wrapper_Res_Description=NotCPUCores
-#AutoIt3Wrapper_Res_Fileversion=1.7.0.0
+#AutoIt3Wrapper_Res_Fileversion=1.8.0.0
 #AutoIt3Wrapper_Res_LegalCopyright=Robert Maehl, using LGPL 3 License
 #AutoIt3Wrapper_Res_Language=1033
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -695,6 +695,23 @@ Func Main()
 				ContinueCase
 
 			Case $bInit = True
+				If FileExists(@WorkingDir & "\Autoload.ncc") And $bInit = True Then
+					$hFile = FileOpenDialog($_sLang_LoadProfile, @WorkingDir, "NotCPUCores Profile (*.ncc)", $FD_FILEMUSTEXIST, $sFile, $hGUI)
+					If @error Then
+						;;;
+					Else
+						GUICtrlSetData($hTask       , String(_IniRead($hFile, "General"  , "Process"   ,                                      "",                "")))
+						GUICtrlSetState($hChildren  , Number(_IniRead($hFile, "General"  , "Children"  ,                                      "",    $GUI_UNCHECKED)))
+						GUICtrlSetData($hAssignMode , String(_IniRead($hFile, "General"  , "SplitAs"   , _GUICtrlComboBox_GetList($hAssignMode ),          "Custom")))
+						GUICtrlSetData($hCores      , String(_IniRead($hFile, "General"  , "Threads"   ,                                      "",               "1")))
+						GUICtrlSetData($hPPriority  , String(_IniRead($hFile, "General"  , "Priority"  , _GUICtrlComboBox_GetList($hPPriority  ),            "High")))
+						GUICtrlSetData($hSplitMode  , String(_IniRead($hFile, "Streaming", "SplitAs"   , _GUICtrlComboBox_GetList($hSplitMode  ),             "OFF")))
+						GUICtrlSetData($hBCores     , String(_IniRead($hFile, "Streaming", "Threads"   ,                                      "",               "2")))
+						GUICtrlSetData($hBroadcaster, String(_IniRead($hFile, "Streaming", "Software"  , _GUICtrlComboBox_GetList($hBroadcaster),             "OBS")))
+						GUICtrlSetState($hBroChild  , Number(_IniRead($hFile, "Streaming", "Children"  ,                                      "",    $GUI_UNCHECKED)))
+						GUICtrlSetData($hOAssign    , String(_IniRead($hFile, "Streaming", "Assignment", _GUICtrlComboBox_GetList($hOAssign    ), "Remaining Cores")))
+					EndIf
+				EndIf
 				$bInit = False
 				ContinueCase
 
@@ -1249,6 +1266,9 @@ Func _GetChildProcesses($i_pid) ; First level children processes only
     DllCall("Kernel32.dll", "int", "CloseHandle", "long", $a_tool_help[0])
     If $i_add Then Return $a_children
     Return SetError(3, 0, 0)
+EndFunc
+
+Func _GetError($sFunction, $iError, $iExtended)
 EndFunc
 
 Func _GetProcessList($hControl)
